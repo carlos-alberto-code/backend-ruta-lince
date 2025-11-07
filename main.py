@@ -1,12 +1,23 @@
 from fastapi import FastAPI
-from api.v1.router import api_router
+from api.router import api_router
 from fastapi.middleware.cors import CORSMiddleware
+from database.database import crear_db_y_tablas
 
 app = FastAPI(
     title="Ruta Lince API",
     description="API REST para el sistema Ruta Lince",
     version="0.1.0",
 )
+
+
+@app.on_event("startup")
+def on_startup():
+    """
+    Evento que se ejecuta al iniciar la aplicación.
+    Crea las tablas de la base de datos si no existen.
+    """
+    crear_db_y_tablas()
+
 
 # Configuración CORS para desarrollo en localhost
 origins = [
@@ -37,6 +48,16 @@ async def root():
         "message": "La API está funcionando",
         "version": "0.1.0",
         "status": "ok"
+    }
+
+
+@app.get("/health", tags=["Health"])
+async def health_check():
+    # Endpoint de health check para monitoring y verificación de disponibilidad
+    return {
+        "status": "ok",
+        "version": "0.1.0",
+        "message": "Servidor activo y funcionando"
     }
 
 
