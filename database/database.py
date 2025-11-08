@@ -4,7 +4,6 @@ from core.config import settings
 # Crear el engine de la base de datos
 engine = create_engine(
     settings.DATABASE_URL,
-    echo=True,  # Muestra las consultas SQL en consola (útil para desarrollo)
     connect_args={"check_same_thread": False}  # Necesario para SQLite
 )
 
