@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, APIRouter
-from schemas.salud_app import AppHealthData, Timeseries, Metrics
+from schemas.salud import AppHealthData, Timeseries, Metrics
 
 app = FastAPI()
 router = APIRouter(prefix="/api/app-health", tags=["app-health"])
