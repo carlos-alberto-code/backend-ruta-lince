@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlmodel import Session
 from repositories.user import UserRepository
 from core.security import hashear_contrasena, verificar_contrasena, crear_access_token
-from schemas.user import UserCreate, UserLogin, UserRead, Token
+from schemas.login import UserCreate, UserLogin, UserLoginRead, Token
 
 
 class AuthService:
@@ -15,7 +15,7 @@ class AuthService:
         self.session = session
         self.user_repo = UserRepository(session)
 
-    def registrar_usuario(self, datos_usuario: UserCreate) -> UserRead:
+    def registrar_usuario(self, datos_usuario: UserCreate) -> UserLoginRead:
         """
         Registra un nuevo usuario en el sistema.
 
@@ -23,7 +23,7 @@ class AuthService:
             datos_usuario: Datos del usuario a crear (email y contraseña)
 
         Returns:
-            UserRead: Los datos del usuario creado
+            UserLoginRead: Los datos del usuario creado
 
         Raises:
             HTTPException: Si el email ya está registrado
@@ -45,14 +45,14 @@ class AuthService:
         )
 
         # Retornar el usuario sin la contraseña
-        return UserRead(
+        return UserLoginRead(
             id=usuario.id,
             email=usuario.email,
             activo=usuario.activo,
             verificado=usuario.verificado
         )
 
-    def autenticar_usuario(self, credenciales: UserLogin) -> Token:
+    def autenticar_usuario(self, credenciales: UserLogin):
         """
         Autentica un usuario y genera un token de acceso.
 
@@ -76,7 +76,7 @@ class AuthService:
             )
 
         # Verificar la contraseña
-        if not verificar_contrasena(credenciales.contrasena, usuario.contrasena):
+        if not verificar_contrasena(credenciales.password, usuario.contrasena):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Email o contraseña incorrectos",
@@ -99,7 +99,7 @@ class AuthService:
         return Token(
             access_token=access_token,
             token_type="bearer",
-            user=UserRead(
+            user=UserLoginRead(
                 id=usuario.id,
                 email=usuario.email,
                 activo=usuario.activo,

@@ -2,6 +2,25 @@ from sqlmodel import SQLModel, Field
 from pydantic import EmailStr, field_validator
 
 
+class UserLogin(SQLModel):
+    email: str
+    password: str
+
+
+class UserLoginRead(SQLModel):
+    id: int
+    verificado: bool
+    nombre_completo: str
+
+    model_config = {"from_attributes": True}
+
+
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+    user: UserLoginRead
+
+
 class UserCreate(SQLModel):
     email: EmailStr
     contrasena: str = Field(min_length=8, max_length=100)
@@ -14,23 +33,3 @@ class UserCreate(SQLModel):
         if not any(char.isalpha() for char in v):
             raise ValueError('La contraseña debe contener al menos una letra')
         return v
-
-
-class UserLogin(SQLModel):
-    email: EmailStr
-    contrasena: str
-
-
-class UserRead(SQLModel):
-    id: int
-    email: str
-    activo: bool
-    verificado: bool
-
-    model_config = {"from_attributes": True}
-
-
-class Token(SQLModel):
-    access_token: str
-    token_type: str = "bearer"
-    user: UserRead
