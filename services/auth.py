@@ -1,21 +1,21 @@
 from fastapi import HTTPException, status
 from sqlmodel import Session
-from repositories.user import UserRepository
-from core.security import hashear_contrasena, verificar_contrasena, crear_access_token
-from schemas.login import UserCreate, UserLogin, UserLoginRead, Token
+from repositories.user import RepositorioUsuario
+from core.security import hashear_contrasena, verificar_contrasena, crear_token_acceso
+from schemas.login import CrearUsuario, LoginUsuario, LeerLoginUsuario, Token
 
 
-class AuthService:
+class ServicioAutenticacion:
     """
     Servicio de autenticación.
     Contiene la lógica de negocio para registro, login y gestión de tokens.
     """
 
-    def __init__(self, session: Session):
-        self.session = session
-        self.user_repo = UserRepository(session)
+    def __init__(self, sesion: Session):
+        self.sesion = sesion
+        self.repo_usuario = RepositorioUsuario(sesion)
 
-    def registrar_usuario(self, datos_usuario: UserCreate) -> UserLoginRead:
+    def registrar_usuario(self, datos_usuario: CrearUsuario) -> LeerLoginUsuario:
         """
         Registra un nuevo usuario en el sistema.
 
@@ -23,13 +23,13 @@ class AuthService:
             datos_usuario: Datos del usuario a crear (email y contraseña)
 
         Returns:
-            UserLoginRead: Los datos del usuario creado
+            LeerLoginUsuario: Los datos del usuario creado
 
         Raises:
             HTTPException: Si el email ya está registrado
         """
         # Verificar si el email ya existe
-        if self.user_repo.existe_email(str(datos_usuario.email)):
+        if self.repo_usuario.existe_email(str(datos_usuario.email)):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="El email ya está registrado"
@@ -39,20 +39,19 @@ class AuthService:
         contrasena_hasheada = hashear_contrasena(datos_usuario.contrasena)
         
         # Crear el usuario
-        usuario = self.user_repo.crear_usuario(
+        usuario = self.repo_usuario.crear_usuario(
             email=str(datos_usuario.email),
             contrasena_hasheada=contrasena_hasheada
         )
 
         # Retornar el usuario sin la contraseña
-        return UserLoginRead(
+        return LeerLoginUsuario(
             id=usuario.id,
-            email=usuario.email,
-            activo=usuario.activo,
-            verificado=usuario.verificado
+            verificado=usuario.verificado,
+            nombre_completo=f"{usuario.nombre} {usuario.apellidos}".strip() or "Usuario"
         )
 
-    def autenticar_usuario(self, credenciales: UserLogin):
+    def autenticar_usuario(self, credenciales: LoginUsuario):
         """
         Autentica un usuario y genera un token de acceso.
 
@@ -67,7 +66,7 @@ class AuthService:
         """
         # Buscar el usuario por email
         usuario = self.user_repo.obtener_por_email(str(credenciales.email))
-
+        usuario = self.repo_usuario.obtener_por_email(str(credenciales.email))
         if not usuario:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -77,7 +76,7 @@ class AuthService:
 
         # Verificar la contraseña
         if not verificar_contrasena(credenciales.password, usuario.contrasena):
-            raise HTTPException(
+        if not verificar_contrasena(credenciales.contrasena, usuario.contrasena):
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Email o contraseña incorrectos",
                 headers={"WWW-Authenticate": "Bearer"},
@@ -92,18 +91,17 @@ class AuthService:
 
         # Crear el token de acceso
         access_token = crear_access_token(
-            data={"sub": str(usuario.id), "email": usuario.email}
-        )
+        token_acceso = crear_token_acceso(
+            datos={"sub": str(usuario.id), "email": usuario.email}
 
         # Retornar el token y los datos del usuario
         return Token(
             access_token=access_token,
-            token_type="bearer",
-            user=UserLoginRead(
-                id=usuario.id,
+            token_acceso=token_acceso,
+            tipo_token="bearer",
+            usuario=LeerLoginUsuario(
                 email=usuario.email,
-                activo=usuario.activo,
-                verificado=usuario.verificado
-            )
+                verificado=usuario.verificado,
+                nombre_completo=f"{usuario.nombre} {usuario.apellidos}".strip() or "Usuario"
         )
 

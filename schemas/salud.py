@@ -3,20 +3,20 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-Trend = Literal['up', 'down', 'flat']
+Tendencia = Literal['up', 'down', 'flat']
 
 
-class Metric(BaseModel):
-    label: str
-    value: float | str
-    unit: str | None = None
+class Metrica(BaseModel):
+    etiqueta: str = Field(..., alias='label')
+    valor: float | str = Field(..., alias='value')
+    unidad: str | None = Field(None, alias='unit')
     meta: float | str | None = None
-    delta_pct: float | None = Field(None, alias='deltaPct')
-    trend: Trend | None = None
+    porcentaje_delta: float | None = Field(None, alias='deltaPct')
+    tendencia: Tendencia | None = Field(None, alias='trend')
 
-    class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+    model_config = {
+        "populate_by_name": True,
+        "json_schema_extra": {
             "example": {
                 "label": "Latencia p50",
                 "value": 120,
@@ -26,25 +26,28 @@ class Metric(BaseModel):
                 "trend": "down"
             }
         }
+    }
 
 
-class PieChartData(BaseModel):
-    value: float
+class DatosGraficoCircular(BaseModel):
+    valor: float = Field(..., alias='value')
     meta: float
 
-    class Config:
-        schema_extra = {"example": {"value": 92, "meta": 95}}
+    model_config = {
+        "populate_by_name": True,
+        "json_schema_extra": {"example": {"value": 92, "meta": 95}}
+    }
 
 
-class Timeseries(BaseModel):
-    months: list[str]
-    sessions_ok: list[float] = Field(..., alias='sessionsOK')
+class SeriesTiempo(BaseModel):
+    meses: list[str] = Field(..., alias='months')
+    sesiones_ok: list[float] = Field(..., alias='sessionsOK')
     p50: list[float]
     p95: list[float]
 
-    class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+    model_config = {
+        "populate_by_name": True,
+        "json_schema_extra": {
             "example": {
                 "months": ["Jul", "Ago", "Sep", "Oct", "Nov"],
                 "sessionsOK": [89, 91, 90, 92, 92],
@@ -52,23 +55,22 @@ class Timeseries(BaseModel):
                 "p95": [360, 345, 330, 325, 320],
             }
         }
+    }
 
 
-class Metrics(BaseModel):
-    latency_p50: Metric = Field(..., alias='latencyP50')
-    latency_p95: Metric = Field(..., alias='latencyP95')
-    app_store_rating: Metric = Field(..., alias='appStoreRating')
-    play_store_rating: Metric = Field(..., alias='playStoreRating')
+class Metricas(BaseModel):
+    latencia_p50: Metrica = Field(..., alias='latencyP50')
+    latencia_p95: Metrica = Field(..., alias='latencyP95')
+    rating_app_store: Metrica = Field(..., alias='appStoreRating')
+    rating_play_store: Metrica = Field(..., alias='playStoreRating')
 
-    class Config:
-        allow_population_by_field_name = True
+    model_config = {"populate_by_name": True}
 
 
-class AppHealthData(BaseModel):
-    updated_at: datetime | None = Field(None, alias='updatedAt')
-    pie_chart: PieChartData = Field(..., alias='pieChart')
-    metrics: Metrics
-    timeseries: Timeseries
+class DatosSaludApp(BaseModel):
+    actualizado_en: datetime | None = Field(None, alias='updatedAt')
+    grafico_circular: DatosGraficoCircular = Field(..., alias='pieChart')
+    metricas: Metricas = Field(..., alias='metrics')
+    series_tiempo: SeriesTiempo = Field(..., alias='timeseries')
 
-    class Config:
-        allow_population_by_field_name = True
+    model_config = {"populate_by_name": True}

@@ -2,10 +2,10 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 from jose import jwt
 from passlib.context import CryptContext
-from core.config import settings
+from core.config import configuracion
 
 # Configuración para el hashing de contraseñas
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+contexto_contrasena = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verificar_contrasena(contrasena_plana: str, contrasena_hasheada: str) -> bool:
@@ -19,7 +19,7 @@ def verificar_contrasena(contrasena_plana: str, contrasena_hasheada: str) -> boo
     Returns:
         True si las contraseñas coinciden, False en caso contrario
     """
-    return pwd_context.verify(contrasena_plana, contrasena_hasheada)
+    return contexto_contrasena.verify(contrasena_plana, contrasena_hasheada)
 
 
 def hashear_contrasena(contrasena: str) -> str:
@@ -32,29 +32,29 @@ def hashear_contrasena(contrasena: str) -> str:
     Returns:
         La contraseña hasheada
     """
-    return pwd_context.hash(contrasena)
+    return contexto_contrasena.hash(contrasena)
 
 
-def crear_access_token(data: dict[str, Any], expires_delta: timedelta | None = None) -> str:
+def crear_token_acceso(datos: dict[str, Any], delta_expiracion: timedelta | None = None) -> str:
     """
     Crea un token JWT de acceso.
 
     Args:
-        data: Los datos a incluir en el token (típicamente el user_id o email)
-        expires_delta: Tiempo de expiración del token
+        datos: Los datos a incluir en el token (típicamente el id_usuario o email)
+        delta_expiracion: Tiempo de expiración del token
 
     Returns:
         El token JWT como string
     """
-    to_encode = data.copy()
+    a_codificar = datos.copy()
 
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
+    if delta_expiracion:
+        expiracion = datetime.now(timezone.utc) + delta_expiracion
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expiracion = datetime.now(timezone.utc) + timedelta(minutes=configuracion.MINUTOS_EXPIRACION_TOKEN_ACCESO)
 
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    a_codificar.update({"exp": expiracion})
+    jwt_codificado = jwt.encode(a_codificar, configuracion.CLAVE_SECRETA, algorithm=configuracion.ALGORITMO)
 
-    return encoded_jwt
+    return jwt_codificado
 

@@ -1,14 +1,14 @@
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, APIRouter
-from schemas.salud import AppHealthData, Timeseries, Metrics
+from schemas.salud import DatosSaludApp, SeriesTiempo, Metricas
 
 app = FastAPI()
-router = APIRouter(prefix="/api/app-health", tags=["app-health"])
+enrutador = APIRouter(prefix="/api/app-health", tags=["app-health"])
 
 
-def get_mock_data() -> AppHealthData:
-    return AppHealthData.parse_obj(
+def obtener_datos_ejemplo() -> DatosSaludApp:
+    return DatosSaludApp.model_validate(
         {
             "updatedAt": datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
             "pieChart": {"value": 92, "meta": 95},
@@ -56,19 +56,19 @@ def get_mock_data() -> AppHealthData:
     )
 
 
-@router.get("/", response_model=AppHealthData)
-async def get_app_health():
-    return get_mock_data()
+@enrutador.get("/", response_model=DatosSaludApp)
+async def obtener_salud_app():
+    return obtener_datos_ejemplo()
 
 
-@router.get("/timeseries", response_model=Timeseries)
-async def get_timeseries():
-    return get_mock_data().timeseries
+@enrutador.get("/timeseries", response_model=SeriesTiempo)
+async def obtener_series_tiempo():
+    return obtener_datos_ejemplo().series_tiempo
 
 
-@router.get("/metrics", response_model=Metrics)
-async def get_metrics():
-    return get_mock_data().metrics
+@enrutador.get("/metrics", response_model=Metricas)
+async def obtener_metricas():
+    return obtener_datos_ejemplo().metricas
 
 
-app.include_router(router)
+app.include_router(enrutador)

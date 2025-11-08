@@ -1,22 +1,22 @@
 from sqlmodel import SQLModel, create_engine, Session
-from core.config import settings
+from core.config import configuracion
 
-# Crear el engine de la base de datos
-engine = create_engine(
-    settings.DATABASE_URL,
+# Crear el motor de la base de datos
+motor = create_engine(
+    configuracion.URL_BASE_DATOS,
     connect_args={"check_same_thread": False}  # Necesario para SQLite
 )
 
 
-def crear_db_y_tablas():
+def crear_bd_y_tablas():
     """
     Crea la base de datos y todas las tablas definidas en los modelos.
     Se debe llamar al iniciar la aplicación.
     """
-    SQLModel.metadata.create_all(engine)
+    SQLModel.metadata.create_all(motor)
 
 
-def get_session():
+def obtener_sesion():
     """
     Generador que proporciona una sesión de base de datos.
     Se usa como dependencia en FastAPI.
@@ -24,6 +24,6 @@ def get_session():
     Yields:
         Session: Una sesión de SQLModel para interactuar con la BD
     """
-    with Session(engine) as session:
-        yield session
+    with Session(motor) as sesion:
+        yield sesion
 

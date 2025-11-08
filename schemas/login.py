@@ -2,12 +2,12 @@ from sqlmodel import SQLModel, Field
 from pydantic import EmailStr, field_validator
 
 
-class UserLogin(SQLModel):
+class LoginUsuario(SQLModel):
     email: str
-    password: str
+    contrasena: str
 
 
-class UserLoginRead(SQLModel):
+class LeerLoginUsuario(SQLModel):
     id: int
     verificado: bool
     nombre_completo: str
@@ -16,12 +16,14 @@ class UserLoginRead(SQLModel):
 
 
 class Token(SQLModel):
-    access_token: str
-    token_type: str
-    user: UserLoginRead
+    token_acceso: str = Field(..., alias='access_token')
+    tipo_token: str = Field(..., alias='token_type')
+    usuario: LeerLoginUsuario = Field(..., alias='user')
+
+    model_config = {"from_attributes": True, "populate_by_name": True}
 
 
-class UserCreate(SQLModel):
+class CrearUsuario(SQLModel):
     email: EmailStr
     contrasena: str = Field(min_length=8, max_length=100)
 

@@ -1,6 +1,6 @@
 from api import auth
 from fastapi import APIRouter
 
-api_router = APIRouter()
+enrutador_api = APIRouter()
 
-api_router.include_router(auth.router)
+enrutador_api.include_router(auth.enrutador)

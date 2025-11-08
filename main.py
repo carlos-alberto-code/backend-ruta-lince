@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.router import api_router
+from api.router import enrutador_api
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
@@ -9,25 +9,25 @@ app = FastAPI(
 )
 
 # CORS: Todos los orígenes para el desarrollo en localhost
-origins = ["*"]
+origenes = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origenes,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-@app.get("/", tags=["Health"])
-async def root():
+@app.get("/", tags=["Salud"])
+async def raiz():
     # Este endpoint sirve para verificar rápidamente si la API está funcionando
     # Hay que usarlo cuando tengamos duda sobre si el servidor está respondiendo.
     return {
-        "message": "La API está funcionando",
+        "mensaje": "La API está funcionando",
         "version": "1.0.0",
-        "status": "ok"
+        "estado": "ok"
     }
 
 
-app.include_router(api_router, prefix="/api")
+app.include_router(enrutador_api, prefix="/api")

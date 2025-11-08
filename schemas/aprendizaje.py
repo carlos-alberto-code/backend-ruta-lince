@@ -1,56 +1,59 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Literal
 
-Trend = Literal['up', 'down', 'flat']
+Tendencia = Literal['up', 'down', 'flat']
 
 
-class Metric(BaseModel):
-    label: str
-    value: float
-    unit: Optional[str] = None
+class Metrica(BaseModel):
+    etiqueta: str = Field(..., alias='label')
+    valor: float = Field(..., alias='value')
+    unidad: Optional[str] = Field(None, alias='unit')
     meta: Optional[float] = None
-    delta_pct: Optional[float] = Field(None, alias='deltaPct')
-    trend: Optional[Trend] = None
+    porcentaje_delta: Optional[float] = Field(None, alias='deltaPct')
+    tendencia: Optional[Tendencia] = Field(None, alias='trend')
 
-    class Config:
-        allow_population_by_field_name = True
-
-
-class SimulatorsProgress(BaseModel):
-    weeks: List[str]
-    avg: List[float]
-    min: List[float]
-    max: List[float]
+    model_config = {"populate_by_name": True}
 
 
-class BenchmarkPrep(BaseModel):
-    topics: List[str]
-    percent: List[float]
+class ProgresoSimuladores(BaseModel):
+    semanas: List[str] = Field(..., alias='weeks')
+    promedio: List[float] = Field(..., alias='avg')
+    minimo: List[float] = Field(..., alias='min')
+    maximo: List[float] = Field(..., alias='max')
+
+    model_config = {"populate_by_name": True}
 
 
-class TimesToPass(BaseModel):
-    weeks: List[str]
-    max: List[float]
-    min: List[float]
-    q3: List[float]
-    q1: List[float]
-    median: List[float]
+class PreparacionBenchmark(BaseModel):
+    temas: List[str] = Field(..., alias='topics')
+    porcentaje: List[float] = Field(..., alias='percent')
+
+    model_config = {"populate_by_name": True}
 
 
-class LearningMetrics(BaseModel):
-    score_improvement: Metric = Field(..., alias='scoreImprovement')
-    quiz_avg: Metric = Field(..., alias='quizAvg')
-    egel_attempt_rate: Metric = Field(..., alias='egelAttemptRate')
+class TiemposParaAprobar(BaseModel):
+    semanas: List[str] = Field(..., alias='weeks')
+    maximo: List[float] = Field(..., alias='max')
+    minimo: List[float] = Field(..., alias='min')
+    q3: List[float] = Field(..., alias='q3')
+    q1: List[float] = Field(..., alias='q1')
+    mediana: List[float] = Field(..., alias='median')
 
-    class Config:
-        allow_population_by_field_name = True
+    model_config = {"populate_by_name": True}
 
 
-class LearningData(BaseModel):
-    metrics: LearningMetrics
-    simulators_progress: SimulatorsProgress = Field(..., alias='simulatorsProgress')
-    benchmark_prep: BenchmarkPrep = Field(..., alias='benchmarkPrep')
-    times_to_pass: TimesToPass = Field(..., alias='timesToPass')
+class MetricasAprendizaje(BaseModel):
+    mejora_puntaje: Metrica = Field(..., alias='scoreImprovement')
+    promedio_quiz: Metrica = Field(..., alias='quizAvg')
+    tasa_intento_egel: Metrica = Field(..., alias='egelAttemptRate')
 
-    class Config:
-        allow_population_by_field_name = True
+    model_config = {"populate_by_name": True}
+
+
+class DatosAprendizaje(BaseModel):
+    metricas: MetricasAprendizaje = Field(..., alias='metrics')
+    progreso_simuladores: ProgresoSimuladores = Field(..., alias='simulatorsProgress')
+    preparacion_benchmark: PreparacionBenchmark = Field(..., alias='benchmarkPrep')
+    tiempos_para_aprobar: TiemposParaAprobar = Field(..., alias='timesToPass')
+
+    model_config = {"populate_by_name": True}

@@ -1,19 +1,19 @@
 from sqlmodel import Session, select
-from models.user import User
+from models.user import Usuario
 from typing import Optional
 
 
-class UserRepository:
+class RepositorioUsuario:
     """
     Repositorio para operaciones CRUD de usuarios.
     Separa la lógica de acceso a datos del resto de la aplicación.
     """
 
-    def __init__(self, session: Session):
-        self.session = session
+    def __init__(self, sesion: Session):
+        self.sesion = sesion
 
     def crear_usuario(self, email: str, contrasena_hasheada: str,
-                      nombre: str = "", apellidos: str = "") -> User:
+                      nombre: str = "", apellidos: str = "") -> Usuario:
         """
         Crea un nuevo usuario en la base de datos.
 
@@ -26,7 +26,7 @@ class UserRepository:
         Returns:
             El usuario creado
         """
-        usuario = User(
+        usuario = Usuario(
             email=email,
             contrasena=contrasena_hasheada,
             nombre=nombre,
@@ -35,13 +35,13 @@ class UserRepository:
             verificado=False
         )
 
-        self.session.add(usuario)
-        self.session.commit()
-        self.session.refresh(usuario)
+        self.sesion.add(usuario)
+        self.sesion.commit()
+        self.sesion.refresh(usuario)
 
         return usuario
 
-    def obtener_por_email(self, email: str) -> Optional[User]:
+    def obtener_por_email(self, email: str) -> Optional[Usuario]:
         """
         Busca un usuario por su email.
 
@@ -51,21 +51,21 @@ class UserRepository:
         Returns:
             El usuario si existe, None en caso contrario
         """
-        statement = select(User).where(User.email == email)
-        usuario = self.session.exec(statement).first()
+        declaracion = select(Usuario).where(Usuario.email == email)
+        usuario = self.sesion.exec(declaracion).first()
         return usuario
 
-    def obtener_por_id(self, user_id: int) -> Optional[User]:
+    def obtener_por_id(self, id_usuario: int) -> Optional[Usuario]:
         """
         Busca un usuario por su ID.
 
         Args:
-            user_id: ID del usuario
+            id_usuario: ID del usuario
 
         Returns:
             El usuario si existe, None en caso contrario
         """
-        return self.session.get(User, user_id)
+        return self.sesion.get(Usuario, id_usuario)
 
     def existe_email(self, email: str) -> bool:
         """
