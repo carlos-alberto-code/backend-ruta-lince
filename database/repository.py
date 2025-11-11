@@ -1,5 +1,6 @@
 from typing import Generic, TypeVar
 
+from sqlalchemy import ColumnElement
 from sqlmodel import SQLModel
 from sqlmodel import and_, select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
@@ -46,7 +47,7 @@ class Repository(Generic[T]):
         super().__init__()
         self._model = model
 
-    def get_by(self, *conditions) -> list[T] | None:
+    def get_by(self, *conditions: ColumnElement[bool]) -> list[T] | None:
         try:
             with get_session() as session:
                 stmt = select(self._model).where(and_(*conditions))

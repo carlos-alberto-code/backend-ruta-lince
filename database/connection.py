@@ -1,26 +1,24 @@
 import os
-from dotenv import load_dotenv
-from typing import AsyncGenerator
-from contextlib import asynccontextmanager
+from typing import Generator
+from contextlib import contextmanager
 
-from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlalchemy.ext.asyncio import create_async_engine
+from dotenv import load_dotenv
+from sqlmodel import Session, create_engine
 
 load_dotenv()
 
-DATABASE_URL_PRE = os.getenv("DATABASE_URL_PRE", "sqlite+aiosqlite:///:memory:")
+DATABASE_URL_PRE = os.getenv("DATABASE_URL_PRE", "sqlite:///:memory:")
 
-engine = create_async_engine(DATABASE_URL_PRE)
+engine = create_engine(DATABASE_URL_PRE)
 
 
-@asynccontextmanager
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    async with AsyncSession(engine) as session:
-        try:
-            yield session
-            await session.commit()
-        except Exception as e:
-            await session.rollback()
-            raise e
-        finally:
-            await session.close()
+@contextmanager
+def get_session() -> Generator[Session, None, None]:
+    db = Session(engine)
+    try:
+        yield db
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()

@@ -1,3 +1,3 @@
-from schemas.login import LoginUsuario, LeerLoginUsuario, CrearUsuario
+from schemas.login import LoginUsuario, UsuarioLeido, CrearUsuario
 
-__all__ = ["CrearUsuario", "LoginUsuario", "LeerLoginUsuario"]
+__all__ = ["CrearUsuario", "LoginUsuario", "UsuarioLeido"]

@@ -8,7 +8,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# CORS: Todos los orígenes para el desarrollo en localhost
 origenes = ["*"]
 
 app.add_middleware(
