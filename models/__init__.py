@@ -1,3 +1,3 @@
-from models.user import Usuario
+from models.models import Usuario
 
 __all__ = ['Usuario']
