@@ -1,6 +1,8 @@
-from api import login
+from api import login, aprendizaje, salud
 from fastapi import APIRouter
 
-enrutador_api = APIRouter()
+router = APIRouter()
 
-enrutador_api.include_router(login.enrutador)
+router.include_router(login.router)
+router.include_router(salud.router)
+router.include_router(aprendizaje.router)
