@@ -4,7 +4,8 @@ from fastapi import FastAPI, APIRouter
 from schemas.salud import DatosSaludApp, SeriesTiempo, Metricas
 
 app = FastAPI()
-enrutador = APIRouter(prefix="/api/app-health", tags=["app-health"])
+
+router = APIRouter(prefix="/salud", tags=["Salud de la App"])
 
 
 def obtener_datos_ejemplo() -> DatosSaludApp:
@@ -56,19 +57,16 @@ def obtener_datos_ejemplo() -> DatosSaludApp:
     )
 
 
-@enrutador.get("/", response_model=DatosSaludApp)
+@router.get("/datos", response_model=DatosSaludApp)
 async def obtener_salud_app():
     return obtener_datos_ejemplo()
 
 
-@enrutador.get("/timeseries", response_model=SeriesTiempo)
+@router.get("/timeseries", response_model=SeriesTiempo)
 async def obtener_series_tiempo():
     return obtener_datos_ejemplo().series_tiempo
 
 
-@enrutador.get("/metrics", response_model=Metricas)
+@router.get("/metrics", response_model=Metricas)
 async def obtener_metricas():
     return obtener_datos_ejemplo().metricas
-
-
-app.include_router(enrutador)

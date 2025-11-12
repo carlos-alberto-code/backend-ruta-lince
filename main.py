@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.router import enrutador_api
+from api.router import router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
@@ -29,4 +29,4 @@ async def raiz():
     }
 
 
-app.include_router(enrutador_api, prefix="/api")
+app.include_router(router, prefix="/api")
