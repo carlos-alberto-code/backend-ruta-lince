@@ -1,75 +1,13 @@
-# .gitignore para proyecto Python / PyCharm
-
-# Byte-compiled / caches
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environments (localmente usados)
+# Entorno / dependencias
 .venv/
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
-__pypackages__/
-
-# PyCharm / JetBrains
-.idea/
-*.iml
-*.iws
-
-# VS Code
-.vscode/
-
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-*.egg
-.eggs/
-pip-wheel-metadata/
-wheelhouse/
-
-# Local Python build artifacts
-*.so
-*.dylib
-
-# Testing / typing caches / coverage
-.pytest_cache/
-.mypy_cache/
-.coverage
-coverage.xml
-htmlcov/
-
-# Logs
-*.log
-
-# Databases / local data
-*.sqlite
-*.sqlite3
-/ruta_lince_database.sqlite
-
-# Environment / secrets
 .env
-.env.*
-
-# HTTP client files (e.g. REST client tests)
-/test_main.http
-test_*.http
-
-# OS generated files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor temporary files
-*~
-*.swp
-*.swo
-
-# Compiled Python files
+__pycache__/
 *.pyc
 
-# Misc
-coverage.*
+# Base de datos local
+ruta_lince_database.sqlite
+
+# IDE
+.idea/
+.vscode/
+
