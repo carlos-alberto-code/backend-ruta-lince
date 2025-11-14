@@ -1,15 +1,9 @@
-import os
 from typing import Generator
 from contextlib import contextmanager
+from sqlmodel import SQLModel, Session, create_engine
 
-from dotenv import load_dotenv
-from sqlmodel import Session, create_engine
-
-load_dotenv()
-
-DATABASE_URL_PRE = os.getenv("DATABASE_URL_PRE", "sqlite:///:memory:")
-
-engine = create_engine(DATABASE_URL_PRE)
+engine = create_engine("sqlite:///../src/database/database.sqlite")
+SQLModel.metadata.create_all(engine)
 
 
 @contextmanager
