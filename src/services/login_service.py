@@ -5,9 +5,8 @@ from fastapi import HTTPException, status
 from datetime import UTC, datetime, timedelta
 
 from config import settings
-from schemas.login_schemas import LoginRespuesta
 from src.models import Usuario
-from src.schemas import UsuarioLeido, LoginUsuario
+from src.schemas import UsuarioLeido, LoginUsuario, LoginRespuesta
 from src.database.repository import Repository
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -1,3 +1,3 @@
-from src.schemas.login_schemas import LoginUsuario, UsuarioLeido
+from src.schemas.login_schemas import LoginUsuario, UsuarioLeido, LoginRespuesta
 
-__all__ = ["LoginUsuario", "UsuarioLeido"]
+__all__ = ["LoginUsuario", "UsuarioLeido", "LoginRespuesta"]

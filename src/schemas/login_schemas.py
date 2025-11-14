@@ -1,17 +1,17 @@
-from sqlmodel import SQLModel
+from pydantic import BaseModel
 
 
-class LoginUsuario(SQLModel):
+class LoginUsuario(BaseModel):
     email: str
     contrasena: str
 
 
-class UsuarioLeido(SQLModel):
+class UsuarioLeido(BaseModel):
     id: int
     nombre_completo: str
 
 
-class LoginRespuesta(SQLModel):
+class LoginRespuesta(BaseModel):
     access_token: str
     token_type: str = "bearer"
     usuario: UsuarioLeido
