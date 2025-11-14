@@ -1,8 +1,13 @@
+import os
 from typing import Generator
 from contextlib import contextmanager
 from sqlmodel import SQLModel, Session, create_engine
 
-engine = create_engine("sqlite:///../src/database/database.sqlite")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_PATH = os.path.join(BASE_DIR, "database.sqlite")
+DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
+
+engine = create_engine(DATABASE_URL)
 SQLModel.metadata.create_all(engine)
 
 
