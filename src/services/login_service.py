@@ -5,6 +5,7 @@ from fastapi import HTTPException, status
 from datetime import UTC, datetime, timedelta
 
 from config import settings
+from schemas.login_schemas import LoginRespuesta
 from src.models import Usuario
 from src.schemas import UsuarioLeido, LoginUsuario
 from src.database.repository import Repository
@@ -32,7 +33,7 @@ class ServicioAutenticacion:
     def __init__(self):
         self._repository: Repository[Usuario] = Repository(Usuario)
 
-    def autenticar_usuario(self, credenciales: LoginUsuario) -> UsuarioLeido:
+    def autenticar_usuario(self, credenciales: LoginUsuario) -> LoginRespuesta:
         condition: ColumnElement[bool] = Usuario.email == credenciales.email
         usuarios: list[Usuario] = self._repository.get_by(condition)
         usuario: Usuario | None = usuarios[0] if usuarios else None
@@ -53,11 +54,19 @@ class ServicioAutenticacion:
 
         token = _crear_token_acceso(usuario.id, usuario.email)
 
-        return UsuarioLeido(
-            id=usuario.id,
-            nombre_completo=f"{usuario.nombre} {usuario.apellidos}",
+        # return UsuarioLeido(
+        #     id=usuario.id,
+        #     nombre_completo=f"{usuario.nombre} {usuario.apellidos}",
+        #     access_token=token,
+        #     token_type="bearer"
+        # )
+        return LoginRespuesta(
             access_token=token,
-            token_type="bearer"
+            token_type="bearer",
+            usuario=UsuarioLeido(
+                id=usuario.id,
+                nombre_completo=f"{usuario.nombre} {usuario.apellidos}"
+            )
         )
 
 
