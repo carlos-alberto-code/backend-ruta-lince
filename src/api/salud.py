@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, APIRouter
-from schemas.salud import DatosSaludApp, SeriesTiempo, Metricas
+from src.schemas.salud import DatosSaludApp, SeriesTiempo, Metricas
 
 app = FastAPI()
 

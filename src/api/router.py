@@ -1,5 +1,5 @@
-from api import login, aprendizaje, salud
 from fastapi import APIRouter
+from src.api import login, aprendizaje, salud
 
 router = APIRouter()
 

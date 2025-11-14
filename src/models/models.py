@@ -8,6 +8,4 @@ class Usuario(SQLModel, table=True):
     nombre: str = Field(default="", nullable=False)
     apellidos: str = Field(default="", nullable=False)
     email: str = Field(unique=True, nullable=False, index=True, max_length=255)
-    contrasena: str = Field(nullable=False, max_length=255)
-    activo: bool = Field(default=True, nullable=False)
-    verificado: bool = Field(default=False, nullable=False)
+    contrasena_hash: str = Field(nullable=False, max_length=255)

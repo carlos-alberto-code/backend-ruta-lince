@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from schemas.login import LoginUsuario, UsuarioLeido
-from services.login_service import ServicioAutenticacion
+from src.schemas.login_schemas import LoginUsuario, UsuarioLeido
+from src.services.login_service import ServicioAutenticacion
 
 router = APIRouter(prefix="/auth", tags=["autenticación"])
 
@@ -12,5 +12,5 @@ router = APIRouter(prefix="/auth", tags=["autenticación"])
     summary="Iniciar sesión",
     description="Autenticar usuario con email y contraseña y devuelve el usuario autenticado con algunos datos necesarios."
 )
-async def login(credenciales: LoginUsuario):
+async def login(credenciales: LoginUsuario) -> UsuarioLeido:
     return ServicioAutenticacion().autenticar_usuario(credenciales)

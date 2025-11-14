@@ -4,9 +4,6 @@
 __pycache__/
 *.pyc
 
-# Base de datos local
-ruta_lince_database.sqlite
-
 # IDE
 .idea/
 .vscode/

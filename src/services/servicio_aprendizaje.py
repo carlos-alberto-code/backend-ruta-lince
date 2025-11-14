@@ -1,4 +1,4 @@
-from schemas.aprendizaje import DatosAprendizaje
+from src.schemas.aprendizaje import DatosAprendizaje
 
 
 class ServicioAprendizaje:

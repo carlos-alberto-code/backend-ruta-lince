@@ -1,17 +1,39 @@
 [project]
 name = "backend-ruta-lince"
 version = "0.1.0"
-description = "Add your description here"
+description = "Servicio backend Ruta Lince"
 requires-python = ">=3.13"
+authors = [
+    { name = "Carlos Alberto Baltazar Hinojosa" }
+]
+readme = "README.md"
+license = { text = "UNLICENSED" }
+
 dependencies = [
     "alembic==1.17.1",
     "fastapi>=0.121.2",
-    "passlib>=1.7.4",
+    "passlib[bcrypt]==1.7.4",
+    "bcrypt==3.2.0",
     "pydantic[email]>=2.12.4",
     "pydantic-settings>=2.12.0",
-    "python-jose==3.5.0",
+    "python-jose[cryptography]==3.5.0",
     "python-multipart>=0.0.20",
     "sqlmodel==0.0.27",
     "uvicorn>=0.38.0",
     "python-dotenv>=1.0.1",
+    "setuptools>=68.0.0",
+    "wheel>=0.45.1",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "src"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"

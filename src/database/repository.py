@@ -1,21 +1,22 @@
 from typing import Generic, TypeVar
 
-from sqlalchemy import ColumnElement
 from sqlmodel import SQLModel
 from sqlmodel import and_, select
+from sqlalchemy import ColumnElement
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-from database.connection import get_session
+from src.database.connection import get_session
 
 T = TypeVar('T', bound=SQLModel)
 
 
-def create(entity: T) -> None:
+def create(entity: T) -> T:
     try:
         with get_session() as session:
             session.add(entity)
             session.commit()
             session.refresh(entity)
+            return entity
     except IntegrityError as e:
         session.rollback()
         raise SQLAlchemyError(f"Error de integridad: {e.orig}") from e
