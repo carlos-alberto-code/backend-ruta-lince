@@ -64,10 +64,3 @@ class ServicioAutenticacion:
 def hashear_contrasena(contrasena: str) -> str:
     """Convierte contraseña en hash para guardar en DB"""
     return pwd_context.hash(contrasena)
-
-# usuario_nuevo = Usuario( -- Al crear un nuevo usuario, hay que hashear la contraseña
-#     email="usuario@ejemplo.com",
-#     nombre="Juan",
-#     apellidos="Pérez",
-#     contrasena_hash=hashear_contrasena("micontraseña123")
-# )
