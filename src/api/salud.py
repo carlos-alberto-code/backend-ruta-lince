@@ -1,9 +1,7 @@
 from datetime import datetime, timezone
 
-from fastapi import FastAPI, APIRouter
-from src.schemas.salud import DatosSaludApp, SeriesTiempo, Metricas
-
-app = FastAPI()
+from fastapi import APIRouter
+from src.schemas.salud import DatosSaludApp
 
 router = APIRouter(prefix="/salud", tags=["Salud de la App"])
 
@@ -15,43 +13,43 @@ def obtener_datos_ejemplo() -> DatosSaludApp:
             "pieChart": {"value": 92, "meta": 95},
             "metrics": {
                 "latencyP50": {
-                    "label": "Latencia p50",
-                    "value": 120,
-                    "unit": "ms",
-                    "meta": 100,
-                    "deltaPct": 20,
-                    "trend": "down",
-                },
-                "latencyP95": {
-                    "label": "Latencia p95",
-                    "value": 320,
+                    "label": "Latencia P50",
+                    "value": 95,
                     "unit": "ms",
                     "meta": 300,
-                    "deltaPct": 6.7,
-                    "trend": "down",
+                    "deltaPct": 5,
+                    "trend": "up",
+                },
+                "latencyP95": {
+                    "label": "Latencia P95",
+                    "value": 290,
+                    "unit": "ms",
+                    "meta": 300,
+                    "deltaPct": 8,
+                    "trend": "up",
                 },
                 "appStoreRating": {
-                    "label": "Rating App Store",
-                    "value": 4.6,
-                    "unit": "",
-                    "meta": 4.5,
-                    "deltaPct": 2.2,
+                    "label": "App Store Rating (iOS)",
+                    "value": 4.8,
+                    "unit": "★",
+                    "meta": 4.2,
+                    "deltaPct": 2,
                     "trend": "up",
                 },
                 "playStoreRating": {
-                    "label": "Rating Play Store",
-                    "value": 4.4,
-                    "unit": "",
-                    "meta": 4.5,
-                    "deltaPct": -2.2,
-                    "trend": "down",
+                    "label": "Play Store Rating (Android)",
+                    "value": 4.6,
+                    "unit": "★",
+                    "meta": 4.2,
+                    "deltaPct": 3,
+                    "trend": "up",
                 },
             },
             "timeseries": {
-                "months": ["Jul", "Ago", "Sep", "Oct", "Nov"],
-                "sessionsOK": [89, 91, 90, 92, 92],
-                "p50": [140, 130, 125, 122, 120],
-                "p95": [360, 345, 330, 325, 320],
+                "months": ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+                "sessionsOK": [100, 98, 100, 100, 99, 100],
+                "p50": [20, 14, 15, 12, 11, 10],
+                "p95": [360, 350, 358, 320, 310, 285],
             },
         }
     )
@@ -60,13 +58,3 @@ def obtener_datos_ejemplo() -> DatosSaludApp:
 @router.get("/datos", response_model=DatosSaludApp)
 async def obtener_salud_app():
     return obtener_datos_ejemplo()
-
-
-@router.get("/timeseries", response_model=SeriesTiempo)
-async def obtener_series_tiempo():
-    return obtener_datos_ejemplo().series_tiempo
-
-
-@router.get("/metrics", response_model=Metricas)
-async def obtener_metricas():
-    return obtener_datos_ejemplo().metricas

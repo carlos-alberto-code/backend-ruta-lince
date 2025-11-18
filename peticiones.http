@@ -5,3 +5,10 @@ Content-Type: application/json
   "email": "A840159943@my.uvm.edu.mx",
   "contrasena": "123"
 }
+
+
+### SALUD DE LA APP
+
+GET http://127.0.0.1:8000/api/salud/datos
+Accept: application/json
+
