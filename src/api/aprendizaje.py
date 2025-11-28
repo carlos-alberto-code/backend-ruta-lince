@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from src.schemas.aprendizaje import DatosAprendizaje
-from src.services.servicio_aprendizaje import ServicioAprendizaje
+from src.mock_services.servicio_aprendizaje import ServicioAprendizaje
 
 router = APIRouter(prefix="/aprendizaje", tags=["aprendizaje"])
 

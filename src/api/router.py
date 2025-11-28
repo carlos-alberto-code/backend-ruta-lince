@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.api import login, aprendizaje, salud, usuarios, engagement, gamificacion
+from src.api import login, aprendizaje, salud, estudiantes, engagement, gamificacion
 
 router = APIRouter()
 

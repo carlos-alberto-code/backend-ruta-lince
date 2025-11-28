@@ -1,10 +1,10 @@
-from src.models import Usuario
+from src.models import Estudiantes
 from src.database.repository import create
-from src.services.login_service import hashear_contrasena
+from src.mock_services.login_service import hashear_contrasena
 
 
-def crear_usuario(nombre: str, apellidos: str, email: str, password: str) -> Usuario:
-    usuario = Usuario(
+def crear_usuario(nombre: str, apellidos: str, email: str, password: str) -> Estudiantes:
+    usuario = Estudiantes(
         nombre=nombre,
         apellidos=apellidos,
         email=email,

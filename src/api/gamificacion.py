@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from schemas.gamificacion import DatosGamificacion
-from services.servicio_gamificacion import ServicioGamificacion
+from mock_services.servicio_gamificacion import ServicioGamificacion
 
 router = APIRouter(prefix="/gamificacion", tags=["gamificacion"])
 

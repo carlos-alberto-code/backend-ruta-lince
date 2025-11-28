@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from datetime import UTC, datetime, timedelta
 
 from config import settings
-from src.models import Usuario
+from src.models import Estudiantes
 from src.schemas import UsuarioLeido, LoginUsuario, LoginRespuesta
 from src.database.repository import Repository
 
@@ -30,12 +30,12 @@ def _crear_token_acceso(usuario_id: int, email: str) -> str:
 class ServicioAutenticacion:
 
     def __init__(self):
-        self._repository: Repository[Usuario] = Repository(Usuario)
+        self._repository: Repository[Estudiantes] = Repository(Estudiantes)
 
     def autenticar_usuario(self, credenciales: LoginUsuario) -> LoginRespuesta:
-        condition: ColumnElement[bool] = Usuario.email == credenciales.email
-        usuarios: list[Usuario] = self._repository.get_by(condition)
-        usuario: Usuario | None = usuarios[0] if usuarios else None
+        condition: ColumnElement[bool] = Estudiantes.email == credenciales.email
+        usuarios: list[Estudiantes] = self._repository.get_by(condition)
+        usuario: Estudiantes | None = usuarios[0] if usuarios else None
 
         if not usuario:
             raise HTTPException(
