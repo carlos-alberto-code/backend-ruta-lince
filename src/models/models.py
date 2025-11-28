@@ -16,10 +16,6 @@ class Estudiantes(SQLModel, table=True):
     __tablename__ = 'estudiantes'
 
     id: int | None = Field(default=None, primary_key=True)
-    nombre: str = Field(nullable=False)
-    apellidos: str = Field(nullable=False)
-    email: str = Field(unique=True, nullable=False, index=True, max_length=255)
-    contrasena_hash: str = Field(nullable=False)
     fecha_registro: datetime = Field(default_factory=datetime.utcnow)
     ultimo_login: datetime | None = Field(default=None)
 
