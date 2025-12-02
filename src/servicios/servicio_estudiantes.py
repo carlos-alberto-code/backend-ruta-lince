@@ -3,7 +3,7 @@ from typing import Any, Tuple
 from sqlmodel import Session, desc, func, select
 
 from database import get_session
-from models.models import CohorteMensual, DefinicionMetrica, Estudiantes, RegistroMetrica
+from models.models import CohorteMensual, DefinicionMetrica, Estudiante, RegistroMetrica
 from schemas.usuario_schemas import (
     DatosUsuarios, InstalacionRegistro, MetricaUsuario,
     MetricasPrincipales, RetencionCohorte, Tendencia, UsuariosActivos
@@ -98,7 +98,7 @@ def obtener_metricas_estudiantes() -> DatosUsuarios:
                                              penultima_cohorte.retencion_m1_pct, "%")
         )
 
-        total_registros = session.exec(select(func.count(Estudiantes.id))).one()
+        total_registros = session.exec(select(func.count(Estudiante.id))).one()
 
         stmt_installs = (
             select(func.sum(RegistroMetrica.valor))

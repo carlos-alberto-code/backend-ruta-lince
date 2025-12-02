@@ -1,3 +1,3 @@
-from src.models.models import Estudiantes
+from src.models.models import Estudiante
 
-__all__ = ['Estudiantes']
+__all__ = ['Estudiante']

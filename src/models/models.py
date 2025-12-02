@@ -12,7 +12,7 @@ class Usuario(SQLModel, table=True):
     contrasena_hash: str = Field(nullable=False, max_length=255)
 
 
-class Estudiantes(SQLModel, table=True):
+class Estudiante(SQLModel, table=True):
     __tablename__ = 'estudiantes'
 
     id: int | None = Field(default=None, primary_key=True)
@@ -81,7 +81,7 @@ class IntentoDesafio(SQLModel, table=True):
     puntaje: int = Field(default=0)
     detalle_palabras: dict | None = Field(default=None, sa_type=JSON)
 
-    estudiante: Estudiantes = Relationship(back_populates="intentos_juego")
+    estudiante: Estudiante = Relationship(back_populates="intentos_juego")
 
 
 class IntentoSimulador(SQLModel, table=True):
@@ -94,7 +94,7 @@ class IntentoSimulador(SQLModel, table=True):
     puntaje_obtenido: float
     tiempo_segundos: int
 
-    estudiante: Estudiantes = Relationship(back_populates="intentos_simulador")
+    estudiante: Estudiante = Relationship(back_populates="intentos_simulador")
 
 
 class CohorteMensual(SQLModel, table=True):
