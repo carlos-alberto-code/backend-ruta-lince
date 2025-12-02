@@ -53,12 +53,6 @@ class ServicioAutenticacion:
 
         token = _crear_token_acceso(usuario.id, usuario.email)
 
-        # return UsuarioLeido(
-        #     id=usuario.id,
-        #     nombre_completo=f"{usuario.nombre} {usuario.apellidos}",
-        #     access_token=token,
-        #     token_type="bearer"
-        # )
         return LoginRespuesta(
             access_token=token,
             token_type="bearer",
