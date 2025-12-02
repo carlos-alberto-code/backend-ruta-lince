@@ -1,4 +1,4 @@
-from schemas.engagement import (
+from src.schemas.engagement import (
 
     AvgSessionChartSchema, DatosEngagement, InteractionRatioSchema, MetricDataSchema, MetricsContainerSchema,
     SimpleSeriesSchema, StyledSeriesSchema, VideoInteractionsChartSchema, VideoMetricSchema)

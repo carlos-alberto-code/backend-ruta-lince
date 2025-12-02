@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from schemas.salud import DatosSaludApp
+from src.schemas.salud import DatosSaludApp
 
 
 class ServicioSaludApp:

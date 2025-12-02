@@ -2,9 +2,9 @@ from typing import Any, Tuple
 
 from sqlmodel import Session, desc, func, select
 
-from database import get_session
-from models.models import CohorteMensual, DefinicionMetrica, Estudiante, RegistroMetrica
-from schemas.usuario_schemas import (
+from src.database.connection import get_session
+from src.models.models import CohorteMensual, DefinicionMetrica, Estudiante, RegistroMetrica
+from src.schemas.usuario_schemas import (
     DatosUsuarios, InstalacionRegistro, MetricaUsuario,
     MetricasPrincipales, RetencionCohorte, Tendencia, UsuariosActivos
 )

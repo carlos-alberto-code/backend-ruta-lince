@@ -5,9 +5,9 @@ from fastapi import HTTPException, status
 from datetime import UTC, datetime, timedelta
 
 from config import settings
-from src.models import Estudiante
-from src.schemas import UsuarioLeido, LoginUsuario, LoginRespuesta
+from src.models.models import Usuario
 from src.database.repository import Repository
+from src.schemas.login_schemas import UsuarioLeido, LoginUsuario, LoginRespuesta
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -30,12 +30,12 @@ def _crear_token_acceso(usuario_id: int, email: str) -> str:
 class ServicioAutenticacion:
 
     def __init__(self):
-        self._repository: Repository[Estudiante] = Repository(Estudiante)
+        self._repository: Repository[Usuario] = Repository(Usuario)
 
     def autenticar_usuario(self, credenciales: LoginUsuario) -> LoginRespuesta:
-        condition: ColumnElement[bool] = Estudiante.email == credenciales.email
-        usuarios: list[Estudiante] = self._repository.get_by(condition)
-        usuario: Estudiante | None = usuarios[0] if usuarios else None
+        condition: ColumnElement[bool] = Usuario.email == credenciales.email
+        usuarios: list[Usuario] = self._repository.get_by(condition)
+        usuario: Usuario | None = usuarios[0] if usuarios else None
 
         if not usuario:
             raise HTTPException(

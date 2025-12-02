@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from src.schemas.salud import DatosSaludApp
-from mock_services.servicio_salud_app import ServicioSaludApp
+from src.mock_services.servicio_salud_app import ServicioSaludApp
 
 router = APIRouter(prefix="/salud", tags=["Salud de la App"])
 

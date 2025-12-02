@@ -2,9 +2,9 @@ from collections import defaultdict
 
 from sqlmodel import select
 
-from database import get_session
-from models.models import DefinicionMetrica, RegistroMetrica
-from schemas.usuario_schemas import (
+from src.database.connection import get_session
+from src.models.models import DefinicionMetrica, RegistroMetrica
+from src.schemas.usuario_schemas import (
     DatosUsuarios, InstalacionRegistro,
     MetricaUsuario, MetricasPrincipales,
     RetencionCohorte, UsuariosActivos

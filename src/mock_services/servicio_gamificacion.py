@@ -1,4 +1,4 @@
-from schemas.gamificacion import DatosGamificacion, DropRateByLevelSchema, FunnelDataSchema, GamificationMetricsSchema, \
+from src.schemas.gamificacion import DatosGamificacion, DropRateByLevelSchema, FunnelDataSchema, GamificationMetricsSchema, \
     KpiSchema, \
     SuccessEvolutionSchema, WordAccuracyHeatmapSchema
 

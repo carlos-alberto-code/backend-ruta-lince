@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from schemas.engagement import DatosEngagement
-from mock_services.engagement_service import ServicioEngagement
+from src.schemas.engagement import DatosEngagement
+from src.mock_services.engagement_service import ServicioEngagement
 
 router = APIRouter(prefix="/engagement", tags=["engagement"])
 

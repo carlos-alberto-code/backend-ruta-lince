@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
-from schemas.login_schemas import LoginRespuesta
-from src.schemas.login_schemas import LoginUsuario
-from src.mock_services.login_service import ServicioAutenticacion
+from src.servicios.login_service import ServicioAutenticacion
+from schemas.login_schemas import LoginRespuesta, LoginUsuario
 
 router = APIRouter(prefix="/auth", tags=["autenticación"])
 
