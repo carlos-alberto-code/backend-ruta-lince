@@ -22,6 +22,22 @@ def create(entity: T) -> T:
         raise SQLAlchemyError(f"Error de integridad: {e.orig}") from e
 
 
+def create_many(entities: list[T]) -> list[T]:
+    try:
+        with get_session() as session:
+            session.add_all(entities)
+            session.commit()
+            for e in entities:
+                session.refresh(e)
+            return entities
+    except IntegrityError as e:
+        session.rollback()
+        raise SQLAlchemyError(f"Error de integridad: {e.orig}") from e
+    except SQLAlchemyError as e:
+        session.rollback()
+        raise SQLAlchemyError(f"Error al crear entidades: {e}") from e
+
+
 def delete(entity: T) -> None:
     try:
         with get_session() as session:

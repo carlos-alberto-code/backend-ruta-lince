@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from src.schemas.engagement import DatosEngagement
-from src.mock_services.engagement_service import ServicioEngagement
+from src.mock_services.servicio_engagement_mock import ServicioEngagementMock
 
 router = APIRouter(prefix="/engagement", tags=["engagement"])
 
@@ -13,4 +13,4 @@ router = APIRouter(prefix="/engagement", tags=["engagement"])
     description="Devuelve métricas, progreso de simuladores y otros datos"
 )
 async def obtener_datos_aprendizaje() -> DatosEngagement:
-    return ServicioEngagement.obtener_datos()
+    return ServicioEngagementMock.obtener_datos()

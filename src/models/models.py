@@ -1,4 +1,5 @@
 from datetime import date, datetime
+
 from sqlmodel import Field, JSON, Relationship, SQLModel, UniqueConstraint
 
 
@@ -54,12 +55,11 @@ class Video(SQLModel, table=True):
     __tablename__ = "videos"
 
     id: int | None = Field(default=None, primary_key=True)
-    titulo: str = Field(index=True)
-    duracion_segundos: int = Field(default=0)
-    url_thumbnail: str | None = Field(default=None)
-    vistas_totales: int = Field(default=0)
-    likes_totales: int = Field(default=0)
-    comentarios_totales: int = Field(default=0)
+    nombre: str = Field(index=True, unique=True, max_length=200, nullable=False)
+    duracion: float = Field(nullable=False)  # duración en segundos
+    vistas_totales: int = Field(default=0, nullable=False)
+    likes_totales: int = Field(default=0, nullable=False)
+    comentarios_totales: int = Field(default=0, nullable=False)
 
 
 class NivelJuego(SQLModel, table=True):

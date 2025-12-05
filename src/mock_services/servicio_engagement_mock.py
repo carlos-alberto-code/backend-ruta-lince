@@ -1,10 +1,11 @@
 from src.schemas.engagement import (
+    AvgSessionChartSchema, DatosEngagement, InteractionRatioSchema,
+    MetricDataSchema, MetricsContainerSchema, SimpleSeriesSchema,
+    StyledSeriesSchema, VideoInteractionsChartSchema, VideoMetricSchema
+)
 
-    AvgSessionChartSchema, DatosEngagement, InteractionRatioSchema, MetricDataSchema, MetricsContainerSchema,
-    SimpleSeriesSchema, StyledSeriesSchema, VideoInteractionsChartSchema, VideoMetricSchema)
 
-
-class ServicioEngagement:
+class ServicioEngagementMock:
     @staticmethod
     def obtener_datos() -> DatosEngagement:
         """
@@ -46,7 +47,7 @@ class ServicioEngagement:
             meta=70.0
         )
 
-        # 3. Tabla de Métricas de Video
+        # Tabla de Métricas de Video
         video_metrics = [
             VideoMetricSchema(video="Intro a la Arquitectura", vistas=1500, likeRatio=9.1, commentRate=1.5),
             VideoMetricSchema(video="Patrones de Diseño", vistas=1200, likeRatio=8.8, commentRate=2.2),
